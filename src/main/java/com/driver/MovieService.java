@@ -56,6 +56,12 @@ public class MovieService {
     }
 
     public void deleteDirectorByName(String name) throws DirectorNotPresent {
+
+        List<String> movieList = this.getMoviesByDirectorName(name);
+        for(String movie : movieList){
+            movieRepository.deleteMovie(movie);
+        }
+        movieRepository.deleteDirector(name);
         movieRepository.deleteDirectorByName(name);
     }
 
@@ -63,7 +69,7 @@ public class MovieService {
         List<String> directorList = movieRepository.findAllDirectors();
 
         for(String director : directorList){
-            movieRepository.deleteDirectorByName((director));
+            movieRepository.deleteDirectorByName(director);
         }
     }
 }
