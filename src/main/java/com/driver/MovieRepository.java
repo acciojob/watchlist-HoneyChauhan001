@@ -7,6 +7,7 @@ import java.util.*;
 @Repository
 public class MovieRepository {
 
+
     private Map<String,Movie> movieMap;
     private Map<String,Director> directorMap;
     private Map<String, List<String>> directorMovieMap;
@@ -39,7 +40,7 @@ public class MovieRepository {
         directorMap.put(director.getName(),director);
     }
 
-    public void addMovieDirectorPair(String  movie, String director) {
+    public boolean addMovieDirectorPair(String movie, String director) {
         if(directorMovieMap.containsKey(director)){
             List<String> oldlist = directorMovieMap.get(director);
             oldlist.add(movie);
@@ -62,11 +63,6 @@ public class MovieRepository {
         List<String> list = new ArrayList<String>(movieMap.keySet());
         return list;
     }
-
-    public void deleteDirectorByName(String name) {
-        directorMovieMap.remove(name);
-    }
-
     public List<String> findAllDirectors() {
         List<String> list = new ArrayList<String>(directorMap.keySet());
         return list;
@@ -77,6 +73,9 @@ public class MovieRepository {
     }
 
     public void deleteDirector(String name) {
+        directorMovieMap.remove(name);
         directorMap.remove(name);
     }
+
+    
 }
