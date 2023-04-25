@@ -7,9 +7,16 @@ import java.util.*;
 @Repository
 public class MovieRepository {
 
-    Map<String,Movie> movieMap = new HashMap<>();
-    Map<String,Director> directorMap = new HashMap<>();
-    Map<String, List<String>> directorMovieMap = new HashMap<>();
+
+    private Map<String,Movie> movieMap;
+    private Map<String,Director> directorMap;
+    private Map<String, List<String>> directorMovieMap;
+
+    public MovieRepository() {
+        this.movieMap = new HashMap<>();
+        this.directorMap = new HashMap<>();
+        this.directorMovieMap = new HashMap<>();
+    }
 
     public Optional<Movie> getMovieByName(String name) {
         if(movieMap.containsKey(name)){
@@ -18,9 +25,8 @@ public class MovieRepository {
         else return Optional.empty();
     }
 
-    public boolean addMovie(Movie movie) {
+    public void addMovie(Movie movie) {
         movieMap.put(movie.getName(),movie);
-        return true;
     }
 
     public Optional<Director> getDirectorByName(String name) {
@@ -30,9 +36,8 @@ public class MovieRepository {
         else return Optional.empty();
     }
 
-    public boolean addDirector(Director director) {
+    public void addDirector(Director director) {
         directorMap.put(director.getName(),director);
-        return true;
     }
 
     public boolean addMovieDirectorPair(String movie, String director) {
@@ -46,7 +51,6 @@ public class MovieRepository {
             newList.add(movie);
             directorMovieMap.put(director,newList);
         }
-        return true;
     }
 
     public List<String> getMoviesByDirectorName(String director) {
@@ -72,4 +76,6 @@ public class MovieRepository {
         directorMovieMap.remove(name);
         directorMap.remove(name);
     }
+
+    
 }

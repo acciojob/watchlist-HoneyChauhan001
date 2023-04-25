@@ -40,6 +40,7 @@ public class MovieController {
             return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
+
     }
 
     @PostMapping("/add-movie-director-pair")
@@ -72,7 +73,7 @@ public class MovieController {
     public ResponseEntity getDirectorByName(@PathVariable String name){
         try{
             Optional<Director> directorOpt = movieService.getDirectorByName(name);
-            return new ResponseEntity(directorOpt.get(),HttpStatus.FOUND);
+            return new ResponseEntity(directorOpt.get(),HttpStatus.OK);
         } catch (DirectorNotPresent e){
             return new ResponseEntity(e.getMessage(),HttpStatus.NOT_FOUND);
         }
@@ -80,7 +81,7 @@ public class MovieController {
 
     @GetMapping("/get-movies-by-director-name/{director}")
     public ResponseEntity getMoviesByDirectorName(@PathVariable String director){
-
+    
         try{
             List<String> ans = movieService.getMoviesByDirectorName(director);
             return new ResponseEntity(ans,HttpStatus.OK);
@@ -111,7 +112,7 @@ public class MovieController {
     @DeleteMapping("/delete-all-directors")
     public ResponseEntity deleteAllDirectors(){
 
-        boolean deleted = movieService.deleteAllDirectors();
+        movieService.deleteAllDirectors();
         return new ResponseEntity("Deleted Successfully", HttpStatus.OK);
     }
 

@@ -28,6 +28,7 @@ public class MovieService {
             return directorOpt;
         }
     }
+    
     public boolean addMovie(Movie movie) throws MovieAlreadyExist {
         Optional<Movie> movieOpt = movieRepository.getMovieByName(movie.getName());
         if(movieOpt.isEmpty()){
@@ -79,6 +80,7 @@ public class MovieService {
     }
 
     public boolean deleteAllDirectors() {
+
         List<String> directorList = movieRepository.findAllDirectors();
 
         for(String director : directorList){
