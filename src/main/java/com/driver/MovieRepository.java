@@ -51,6 +51,7 @@ public class MovieRepository {
             newList.add(movie);
             directorMovieMap.put(director,newList);
         }
+        return true;
     }
 
     public List<String> getMoviesByDirectorName(String director) {
