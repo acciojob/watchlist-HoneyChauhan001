@@ -31,8 +31,8 @@ public class MovieService {
     public boolean addMovie(Movie movie) throws MovieAlreadyExist {
         Optional<Movie> movieOpt = movieRepository.getMovieByName(movie.getName());
         if(movieOpt.isEmpty()){
-            boolean added= movieRepository.addMovie(movie);
-            return added;
+            movieRepository.addMovie(movie);
+            return true;
         } else {
             throw new MovieAlreadyExist(movie.getName());
         }
@@ -40,46 +40,49 @@ public class MovieService {
     public boolean addDirector(Director director) throws DirectorAlreadyExist{
         Optional<Director> directorOpt = movieRepository.getDirectorByName(director.getName());
         if(directorOpt.isEmpty()){
-            boolean added= movieRepository.addDirector(director);
-            return added;
+            movieRepository.addDirector(director);
+            return true;
         } else {
             throw new DirectorAlreadyExist(director.getName());
         }
     }
 
     public boolean addMovieDirectorPair(String movieName, String directorName) throws MovieNotPresent,DirectorNotPresent {
-        Optional<Movie> movieOpt = this.getMovieByName(movieName);
+        this.getMovieByName(movieName);
         Optional<Director> directorOpt = this.getDirectorByName(directorName);
 
-        boolean added = movieRepository.addMovieDirectorPair(movieOpt.get(),directorOpt.get());
+        movieRepository.addMovieDirectorPair(movieName,directorName);
         int numOfMovie = directorOpt.get().getNumberOfMovies() + 1;
         directorOpt.get().setNumberOfMovies(numOfMovie);
-        return added;
+        return true;
     }
 
-    public List<Movie> getMoviesByDirectorName(String director) throws DirectorNotPresent{
-        Optional<Director> directorOpt = this.getDirectorByName(director);
-
-        List<Movie> movieList = movieRepository.getMoviesByDirectorName(directorOpt.get());
+    public List<String> getMoviesByDirectorName(String director) throws DirectorNotPresent{
+        this.getDirectorByName(director);
+        List<String> movieList = movieRepository.getMoviesByDirectorName(director);
         return movieList;
     }
 
-    public List<Movie> findAllMovies() {
-        List<Movie> ans = movieRepository.findAllMovies();
+    public List<String> findAllMovies() {
+        List<String> ans = movieRepository.findAllMovies();
         return ans;
     }
 
     public boolean deleteDirectorByName(String name) throws DirectorNotPresent {
-        Optional<Director> directorOpt = this.getDirectorByName(name);
-        boolean deleted = movieRepository.deleteDirectorByName(directorOpt.get());
+
+        List<String> movieList = movieRepository.getMoviesByDirectorName(name);
+        for(String movie : movieList){
+            movieRepository.deleteMovie(movie);
+        }
+        movieRepository.deleteDirector(name);
         return true;
     }
 
     public boolean deleteAllDirectors() {
-        List<Director> directorList = movieRepository.findAllDirectors();
+        List<String> directorList = movieRepository.findAllDirectors();
 
-        for(Director director : directorList){
-            movieRepository.deleteDirectorByName((director));
+        for(String director : directorList){
+            this.deleteDirectorByName(director);
         }
         return true;
     }
