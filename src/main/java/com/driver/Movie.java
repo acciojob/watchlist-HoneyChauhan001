@@ -1,9 +1,5 @@
 package com.driver;
 
-import lombok.Getter;
-import lombok.Setter;
-
-
 public class Movie {
     private String name;
     private int durationInMinutes;
