@@ -69,7 +69,7 @@ public class MovieService {
         List<String> directorList = movieRepository.findAllDirectors();
 
         for(String director : directorList){
-            movieRepository.deleteDirectorByName(director);
+            this.deleteDirectorByName(director);
         }
     }
 }
